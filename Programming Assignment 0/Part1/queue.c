@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <queue.h>
+
 /*
 (10 points) Implement the queue ADT (FIFO) using a linked list in C. 
 To do this, you need to implement functions 
@@ -9,15 +11,6 @@ size (for returning the number of elements in the queue).
 Please test your implementation extensively to be sure about its correctness. 
 You need to submit the C program containing you test cases along the queue implementation.
 */
-typedef struct{
-    int val;
-    Node* next; 
-}Node;
-
-typedef struct{
-    Node* head;
-    Node* tail;
-}Queue;
 
 Queue* createQ(int init){
     Queue* q = (Queue*)malloc(sizeof(Queue));
@@ -73,6 +66,14 @@ int getHead(Queue* q){
 int getTail(Queue* q){
     if(!isEmpty(q))return q->tail->val;
     return 0;
+}
+
+void printQ(Queue* q){
+    Node* n = q->head;
+    while(n != NULL){
+        printf("%d", n->val);
+        n = n->next;
+    }
 }
 
 int size(Queue* q){
