@@ -8,12 +8,12 @@ typedef struct{
     Node* tail;
 }Queue;
 
-Queue* createQ(int init);
-int isEmpty(Queue* q);
+Queue* create_q(int init);
+int is_empty(Queue* q);
 void enqueue(Queue* q, int val);
 int dequeue(Queue* q);
-int getHead(Queue* q);
-int getTail(Queue* q);
-void printQ(Queue* q);
+int get_head(Queue* q);
+int get_tail(Queue* q);
+void print_q(Queue* q);
 int size(Queue* q);
-void destroyQ(Queue* q);
+void destroy_q(Queue* q);

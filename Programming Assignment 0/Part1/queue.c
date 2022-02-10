@@ -12,7 +12,7 @@ Please test your implementation extensively to be sure about its correctness.
 You need to submit the C program containing you test cases along the queue implementation.
 */
 
-Queue* createQ(int init){
+Queue* create_q(int init){
     Queue* q = (Queue*)malloc(sizeof(Queue));
     Node* n = (Node*)malloc(sizeof(Node));
     n->val = init;
@@ -22,7 +22,7 @@ Queue* createQ(int init){
     return q;
 }
 
-int isEmpty(Queue* q){
+int is_empty(Queue* q){
     if(q->head == NULL) return 1;
     return 0;
 }
@@ -32,7 +32,7 @@ void enqueue(Queue* q, int val){
     new->val = val;
     new->next = NULL;
     //if it's empty, new node is the head
-    if(isEmpty(q)){
+    if(is_empty(q)){
         q->head = new;
         q->tail = q->head;
         return;
@@ -43,7 +43,7 @@ void enqueue(Queue* q, int val){
 
 int dequeue(Queue* q){
     //can't deque
-    if(isEmpty(q)){
+    if(is_empty(q)){
         printf("Nothing to dequeue.");
         return -1;
     };
@@ -58,17 +58,17 @@ int dequeue(Queue* q){
     return val;
 }
 
-int getHead(Queue* q){
-    if(!isEmpty(q))return q->head->val;
+int get_head(Queue* q){
+    if(!is_empty(q))return q->head->val;
     return 0;
 }
 
-int getTail(Queue* q){
-    if(!isEmpty(q))return q->tail->val;
+int get_tail(Queue* q){
+    if(!is_empty(q))return q->tail->val;
     return 0;
 }
 
-void printQ(Queue* q){
+void print_q(Queue* q){
     Node* n = q->head;
     while(n != NULL){
         printf("%d", n->val);
@@ -77,7 +77,7 @@ void printQ(Queue* q){
 }
 
 int size(Queue* q){
-    if(isEmpty(q)) return 0; 
+    if(is_empty(q)) return 0; 
 
     Node* n = q->head;
     int count = 1;
@@ -88,8 +88,8 @@ int size(Queue* q){
     return count;
 }
 
-void destroyQ(Queue* q){
-    if(isEmpty(q)){
+void destroy_q(Queue* q){
+    if(is_empty(q)){
         free(q);
         return;
     }
