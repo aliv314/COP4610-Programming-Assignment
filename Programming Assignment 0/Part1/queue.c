@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <queue.h>
+#include "queue.h"
 
 /*
 (10 points) Implement the queue ADT (FIFO) using a linked list in C. 
@@ -12,74 +12,73 @@ Please test your implementation extensively to be sure about its correctness.
 You need to submit the C program containing you test cases along the queue implementation.
 */
 
-Queue* create_q(int init){
-    Queue* q = (Queue*)malloc(sizeof(Queue));
-    Node* n = (Node*)malloc(sizeof(Node));
+queue* create_q(int init){
+    queue* q = (queue*)malloc(sizeof(queue));
+    node* n = (node*)malloc(sizeof(node));
     n->val = init;
+    q->size = 1;
     q->head = n;
     q->tail = q->head;
     q->head->next = NULL;
     return q;
 }
 
-int is_empty(Queue* q){
+int is_empty(queue* q){
     if(q->head == NULL) return 1;
     return 0;
 }
 
-void enqueue(Queue* q, int val){
-    Node* new = (Node*)malloc(sizeof(Node));
+void enqueue(queue* q, int val){
+    node* new = (node*)malloc(sizeof(node));
     new->val = val;
     new->next = NULL;
     //if it's empty, new node is the head
     if(is_empty(q)){
         q->head = new;
         q->tail = q->head;
+        q->size = 1;
         return;
     }
     q->tail->next = new;
     q->tail = new;
+    q->size++;
 }
 
-int dequeue(Queue* q){
+int dequeue(queue* q){
     //can't deque
     if(is_empty(q)){
-        printf("Nothing to dequeue.");
+        printf("Nothing to dequeue. RETURNED -1.\n");
         return -1;
     };
     
     int val = 0;
     val = q->head->val;
     
-    Node* temp = q->head;
+    node* temp = q->head;
     q->head = q->head->next;
-
+    q->size--;
     free(temp);
     return val;
 }
 
-int get_head(Queue* q){
-    if(!is_empty(q))return q->head->val;
-    return 0;
-}
-
-int get_tail(Queue* q){
-    if(!is_empty(q))return q->tail->val;
-    return 0;
-}
-
-void print_q(Queue* q){
-    Node* n = q->head;
+void print_q(queue* q){
+    if(is_empty(q)){
+        printf("[NULL] \n");
+        return;
+    }
+    node* n = q->head;
+    printf("Queue contains: [");
     while(n != NULL){
-        printf("%d", n->val);
+        printf("%d, ", n->val);
         n = n->next;
     }
+    printf("] -> NULL\n");
 }
 
-int size(Queue* q){
+int size(queue* q){
     if(is_empty(q)) return 0; 
 
-    Node* n = q->head;
+    node* n = q->head;
     int count = 1;
     while(n != NULL){
         n = n->next;
@@ -88,15 +87,28 @@ int size(Queue* q){
     return count;
 }
 
-void destroy_q(Queue* q){
+void destroy_q(queue* q){
     if(is_empty(q)){
         free(q);
         return;
     }
-    q = dequeue(q);
-    destroyQ(q);
+    dequeue(q);
+    destroy_q(q);
 }
 
 void main(){
+    queue* q = create_q(1);
+    for(int i = 2; i < 21; i++){
+        enqueue(q, i);
+    }
+    print_q(q);
 
+    int arr [20]; 
+    for(int i = 0; i < 20; i++){
+        arr[i] = dequeue(q);
+    }
+    for(int i = 0; i < 20; i++){
+        printf("Array position [%d] = %d \n", i, arr[i]);
+    }  
+    print_q(q); 
 }

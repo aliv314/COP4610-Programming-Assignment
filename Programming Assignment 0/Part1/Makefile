@@ -1,4 +1,4 @@
-all queue
+all: queue
 queue:	queue.o
 	gcc queue.o -o queue
 queue.o:	queue.c queue.h
