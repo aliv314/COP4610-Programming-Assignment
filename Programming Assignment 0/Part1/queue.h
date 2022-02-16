@@ -1,19 +1,18 @@
-typedef struct{
+typedef struct node{
     int val;
-    Node* next; 
-}Node;
+    struct node* next; 
+}node;
 
 typedef struct{
-    Node* head;
-    Node* tail;
-}Queue;
+    int size; 
+    node* head;
+    node* tail;
+}queue;
 
-Queue* create_q(int init);
-int is_empty(Queue* q);
-void enqueue(Queue* q, int val);
-int dequeue(Queue* q);
-int get_head(Queue* q);
-int get_tail(Queue* q);
-void print_q(Queue* q);
-int size(Queue* q);
-void destroy_q(Queue* q);
+queue* create_q(int init);
+int is_empty(queue* q);
+void enqueue(queue* q, int val);
+int dequeue(queue* q);
+int size(queue* q);
+void print_q(queue* q);
+void destroy_q(queue* q);
