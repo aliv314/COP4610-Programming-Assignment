@@ -1,6 +1,6 @@
 typedef struct{
     int size;
-    int mHeap[10000];
+    int mHeap[1000];
 }pqueue;
 
 pqueue* create_pq(int init);

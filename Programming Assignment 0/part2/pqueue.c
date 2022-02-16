@@ -14,10 +14,10 @@ You need to submit the C program containing you test cases along the heap implem
 
 pqueue* create_pq(int init)
 {
-    pqueue *newpq = malloc(sizeof(newpq));
+    pqueue* newpq = (pqueue*)malloc(sizeof(pqueue));
 
     //pqueue newpq;
-    newpq->size = 0;
+    newpq->size = 1;
     add(newpq, init);
     return newpq;
 }
@@ -26,8 +26,8 @@ void heapify(pqueue* pq, int n, int i)
 {
     int largest = i;
 
-    int l = 2 * i + 1; //left child
-    int r = 2 * i + 2; //right child
+    int l = 2*i + 1; //left child
+    int r = 2*i + 2; //right child
 
     if (l < n && pq->mHeap[largest] < pq->mHeap[l])
         largest = l;
@@ -43,7 +43,6 @@ void heapify(pqueue* pq, int n, int i)
 
         heapify(pq, n, largest);
     }
-    
 }
 
 void add(pqueue* pq, int val)
@@ -51,15 +50,16 @@ void add(pqueue* pq, int val)
     int temp = pq->mHeap[1];
     pq->mHeap[1] = val;
     pq->mHeap[size(pq)] = temp;
-    pq->size = pq->size + 1;
+    pq->size++;
     
     heapify(pq, size(pq), 0); //call heapify
 }
 
-int extract_max(pqueue* pq) //unfinished
+int extract_max(pqueue* pq)
 {
     int maxNum = pq->mHeap[0];
     pq->mHeap[0] = 0;
+    pq->size--;
     heapify(pq, size(pq), 0);
     return maxNum;
 }
@@ -77,18 +77,20 @@ void print_pq(pqueue *pq)
     }
         
 }
-int main()
+void main()
 {
-     pqueue *testQ = create_pq(7);
-     add(testQ,6);
-     add(testQ,8);
-     add(testQ,5);
-     add(testQ,9);
-     add(testQ,1);
-     print_pq(testQ);
-     printf("Max number is %d\n", extract_max(testQ));
-     print_pq(testQ);
+    pqueue *testQ = create_pq(7);
+    add(testQ,6);
+    add(testQ,8);
+    add(testQ,5);
+    add(testQ,9);
+    add(testQ,1);
+    print_pq(testQ);
+    printf("Max number is %d\n", extract_max(testQ));
+    print_pq(testQ);
+    printf("Max number is %d\n", extract_max(testQ));
+    print_pq(testQ);
+    
 
     free(testQ);
-    return 0;
 }
