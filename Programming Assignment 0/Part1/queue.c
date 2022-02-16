@@ -15,6 +15,7 @@ You need to submit the C program containing you test cases along the queue imple
 queue* create_q(int init){
     queue* q = (queue*)malloc(sizeof(queue));
     node* n = (node*)malloc(sizeof(node));
+    //initialize first node
     n->val = init;
     q->size = 1;
     q->head = n;
@@ -51,21 +52,25 @@ int dequeue(queue* q){
         return -1;
     };
     
+    //temp int needed to store return
     int val = 0;
     val = q->head->val;
     
     node* temp = q->head;
     q->head = q->head->next;
     q->size--;
+    //free dequeued node
     free(temp);
     return val;
 }
 
 void print_q(queue* q){
+    //empty queue
     if(is_empty(q)){
         printf("Queue is empty.\n");
         return;
     }
+    //temp pointer to go through queue
     node* n = q->head;
     printf("Queue contains: ");
     while(n != NULL){
@@ -81,10 +86,12 @@ int size(queue* q){
 }
 
 void destroy_q(queue* q){
+    //queue isn't destroyed when emptied
     if(is_empty(q)){
         free(q);
         return;
     }
+    //called recursively
     dequeue(q);
     destroy_q(q);
 }
