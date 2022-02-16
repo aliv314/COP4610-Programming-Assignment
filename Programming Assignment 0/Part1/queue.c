@@ -47,7 +47,7 @@ void enqueue(queue* q, int val){
 int dequeue(queue* q){
     //can't deque
     if(is_empty(q)){
-        printf("Nothing to dequeue. RETURNED -1.\n");
+        printf("ERROR. Queue is empty. Returned -1.\n");
         return -1;
     };
     
@@ -63,28 +63,21 @@ int dequeue(queue* q){
 
 void print_q(queue* q){
     if(is_empty(q)){
-        printf("[NULL] \n");
+        printf("Queue is empty.\n");
         return;
     }
     node* n = q->head;
-    printf("Queue contains: [");
+    printf("Queue contains: ");
     while(n != NULL){
-        printf("%d, ", n->val);
+        printf("[%d]-> ", n->val);
         n = n->next;
     }
-    printf("] -> NULL\n");
+    printf("NULL \n");
 }
 
 int size(queue* q){
-    if(is_empty(q)) return 0; 
-
-    node* n = q->head;
-    int count = 1;
-    while(n != NULL){
-        n = n->next;
-        count++;
-    }
-    return count;
+    if(is_empty(q)) return 0;
+    return q->size;
 }
 
 void destroy_q(queue* q){
@@ -101,6 +94,7 @@ void main(){
     for(int i = 2; i < 21; i++){
         enqueue(q, i);
     }
+	printf("Queue size: %d\n", size(q));
     print_q(q);
 
     int arr [20]; 
@@ -110,5 +104,6 @@ void main(){
     for(int i = 0; i < 20; i++){
         printf("Array position [%d] = %d \n", i, arr[i]);
     }  
-    print_q(q); 
+    print_q(q);
+	printf("Queue size: %d\n", size(q));
 }
