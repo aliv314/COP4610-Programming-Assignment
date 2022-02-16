@@ -77,11 +77,14 @@ void add(pqueue* pq, int val)
     int i = size(pq);
     pq->m_heap[i] = val;
     
+    //checks to see if i is a valid index 
+    //also checks to see if parent of i is smaller than i
     while(pq->m_heap[i] > pq->m_heap[parentNode(i)] && i!=0){
-        //swap i with aprent
+        //swap i with parent
         swap(&pq->m_heap[i], &pq->m_heap[parentNode(i)]);
         i = parentNode(i);
     }
+    //increase size for new element
     pq->size++;
 }
 
@@ -115,11 +118,16 @@ void main()
 {
     pqueue* m_heap = create_pq(0);
 
-    for(int i = 1; i < 5; i++){
+    for(int i = 1; i < 5; i+=10){
         add(m_heap, i);
-        print_pq(m_heap);
         printf("===============================\n");
     }
+    print_pq(m_heap);
+    for(int i = 1; i < 5; i+=10){
+        printf("Extracted: %d", extract_max(m_heap));
+        printf("===============================\n");
+    }
+    print_pq(m_heap);
     
     free(m_heap);
 }
