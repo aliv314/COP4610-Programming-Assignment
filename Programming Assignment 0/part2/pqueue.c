@@ -118,16 +118,18 @@ void main()
 {
     pqueue* m_heap = create_pq(0);
 
-    for(int i = 1; i < 5; i+=10){
+    printf("===============================\n");
+    for(int i = 10; i < 60; i+=10){
         add(m_heap, i);
-        printf("===============================\n");
     }
     print_pq(m_heap);
-    for(int i = 1; i < 5; i+=10){
-        printf("Extracted: %d", extract_max(m_heap));
-        printf("===============================\n");
+    printf("===============================\n");
+    for(int i = 10; i < 60; i+=10){
+        printf("Extracted: %d\n", extract_max(m_heap));
     }
+    
     print_pq(m_heap);
+    printf("===============================\n");
     
     free(m_heap);
 }
