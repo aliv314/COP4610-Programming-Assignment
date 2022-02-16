@@ -4,7 +4,9 @@ typedef struct{
 }pqueue;
 
 pqueue* create_pq(int init);
-void heapify(pqueue* pq, int n, int i);
+void swap(int* a, int* b);
+void percolate_up(pqueue* pq, int n, int i);
+void percolate_down(pqueue* pq, int n, int i);
 void add(pqueue* pq, int val);
 int extract_max(pqueue* pq);
 int size(pqueue* pq);

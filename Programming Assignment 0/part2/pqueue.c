@@ -16,57 +16,93 @@ pqueue* create_pq(int init)
 {
     pqueue* newpq = (pqueue*)malloc(sizeof(pqueue));
 
-    //pqueue newpq;
+    //initializes first element in queue
     newpq->size = 1;
-    add(newpq, init);
+    newpq->mHeap[0] = init;
     return newpq;
 }
 
-void heapify(pqueue* pq, int n, int i)
+//simple swap method
+void swap(int* one, int* two)
 {
-    int largest = i;
-
-    int l = 2*i + 1; //left child
-    int r = 2*i + 2; //right child
-
-    if (l < n && pq->mHeap[largest] < pq->mHeap[l])
-        largest = l;
-
-    if (r < n && pq->mHeap[largest] < pq->mHeap[r])
-        largest = r;
-
-    if(largest != i)
+    int temp = *two;
+    *two = *one;
+    *one = temp;
+}
+//returns size of the pqueue
+int size(pqueue* pq)
+{
+    return pq->size;
+}
+//n is the size of the elements 
+//i is the index which is being percolated up
+void percolate_up(pqueue* pq, int n, int i)
+{
+    int index, parent;
+    
+    index = i;
+    parent = (index-1)/2; 
+    while(pq->mHeap[index] > pq->mHeap[parent] && index > 0 && parent >= 0)
     {
-        int temp = pq->mHeap[i];
-        pq->mHeap[i] = pq->mHeap[largest];
-        pq->mHeap[largest] = temp;
+        //swap takes place
+        swap(&(pq->mHeap[index]), &(pq->mHeap[parent]));
+        //index becomes the parent for the next loop
+        index = parent;
+        //parent is of parent calculated for next loop
+        parent = (index-1)/2;
+    }
+}
+//n = size of the array
+//i = node at which to heapify
+void percolate_down(pqueue* pq, int n, int i)
+{
+    int index, temp, left, right;
+    index = i;
+    temp = i;
+    left = 2 * i + 1; //index left child
+    right = 2 * i + 2; //index right child
 
-        heapify(pq, n, largest);
+    //condition 1 checks that left and right are within the heap size
+    //condition 2 checks that either of the children are bigger than the parent
+    while(right < n && left < n && (pq->mHeap[i] < pq->mHeap[left]|| pq->mHeap[i] < pq->mHeap[right]))
+    {
+        //finding biggest of i's parents
+        if(pq->mHeap[left] > pq->mHeap[right])temp = left;
+        else temp = right;
+        swap(&(pq->mHeap[temp]), &(pq->mHeap[i]));
+        //recalculate parent and children
+        index = temp;
+        left = 2 * temp + 1;
+        right = 2 * temp + 2;
     }
 }
 
 void add(pqueue* pq, int val)
 {
-    int temp = pq->mHeap[1];
-    pq->mHeap[1] = val;
-    pq->mHeap[size(pq)] = temp;
+    if(size(pq) == 1000){
+        printf("Cannot add more to the heap!");
+        return;
+    }
+    if(size(pq) == 0){
+        pq->mHeap[0] = val;
+        pq->size++;
+        return;
+    }
+    pq->mHeap[size(pq)] = val;
     pq->size++;
     
-    heapify(pq, size(pq), 0); //call heapify
+    //added to the bottom so it needs to be percolated up
+    percolate_up(pq, size(pq), size(pq)-1);
 }
 
 int extract_max(pqueue* pq)
 {
+    //temp value for largest
     int maxNum = pq->mHeap[0];
-    pq->mHeap[0] = 0;
+    pq->mHeap[0] = pq->mHeap[pq->size-1];
     pq->size--;
-    heapify(pq, size(pq), 0);
+    percolate_down(pq, size(pq), 0);
     return maxNum;
-}
-
-int size(pqueue* pq)
-{
-    return pq->size;
 }
 
 void print_pq(pqueue *pq)
@@ -77,6 +113,7 @@ void print_pq(pqueue *pq)
     }
         
 }
+
 void main()
 {
     pqueue *testQ = create_pq(7);
@@ -90,7 +127,7 @@ void main()
     print_pq(testQ);
     printf("Max number is %d\n", extract_max(testQ));
     print_pq(testQ);
-    
+
 
     free(testQ);
 }
